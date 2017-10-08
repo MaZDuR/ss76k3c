@@ -2,7 +2,7 @@
 StructureTower.prototype.defend =
     function () {
         // find closes hostile creep
-        var target = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        var target = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS, { filter: o => o.getActiveBodyparts(ATTACK) > 0});
         // if one is found...
         if (target != undefined) {
             // ...FIRE!

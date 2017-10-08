@@ -177,17 +177,17 @@ StructureSpawn.prototype.createDefender =
         return this.createCreep([TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, ATTACK, RANGED_ATTACK], undefined, { role: 'defender',  home: roomname});
     };
 StructureSpawn.prototype.createReserver =
-    funtion (energy) {
+    function (energy) {
     var targetroom = new RoomPosition(25, 25, this.memory.reserveRoom);
 
     var CurrentReservationTicks = -1;
 
     targetroom.controller.reservation ? CurrentReservationTicks = targetroom.controller.reservation.ticksToEnd - Game.time : 0
 
-
+    var StepsToController = this.pos.getRangeTo(targetroom.controller);
 
     //var CurrentReservationTicks = (new RoomPosition(25, 25, this.memory.reserveRoom).controller.upgradeBlocked);
-}
+};
 
 // create a new function for StructureSpawn
 StructureSpawn.prototype.createClaimer =

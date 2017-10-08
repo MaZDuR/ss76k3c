@@ -18,7 +18,7 @@ module.exports.loop = function() {
             //define all the roles and amount
             let numberOfCreeps = {};
             let creepsInRoom = spawns.room.find(FIND_MY_CREEPS);
-            var evolve = numberOfCreeps['miner'] = _.sum(creepsInRoom, (c) => c.memory.role == 'miner');
+            let evolve = numberOfCreeps['miner'] = _.sum(creepsInRoom, (c) => c.memory.role == 'miner');
             spawns.memory.minCreeps = minCreeps;
             spawns.memory.minCreeps.upgrader = 2
             spawns.memory.minCreeps.builder = 2

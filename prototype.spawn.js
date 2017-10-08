@@ -47,7 +47,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
                     /** @type {Array.StructureContainer} */
                     let containers = source.pos.findInRange(FIND_STRUCTURES, 1, {
                         filter: s => s.structureType == STRUCTURE_CONTAINER
-                });
+                    });
                     // if there is a container next to the source
                     if (containers.length > 0) {
                         // spawn a miner
@@ -178,12 +178,12 @@ StructureSpawn.prototype.createDefender =
     };
 StructureSpawn.prototype.createReserver =
     function (energy, target) {
-    //(CONTROLLER_RESERVE_MAX - CurrentReservationTicks) / (CREEP_CLAIM_LIFE_TIME-StepsToController)
+        //(CONTROLLER_RESERVE_MAX - CurrentReservationTicks) / (CREEP_CLAIM_LIFE_TIME-StepsToController)
         const targetroom = new RoomPosition(25, 25, this.memory.reserveRoom);
 
         let CurrentReservationTicks = -1;
 
-        targetroom.controller.reservation ? CurrentReservationTicks = targetroom.controller.reservation.ticksToEnd - Game.time : 0;
+        targetroom.controller.reservation != undefined ? CurrentReservationTicks = targetroom.controller.reservation.ticksToEnd - Game.time : 0;
 
         const StepsToController = this.pos.getRangeTo(targetroom.controller);
 
@@ -198,8 +198,8 @@ StructureSpawn.prototype.createReserver =
 
         return -1;
 
-    //var CurrentReservationTicks = (new RoomPosition(25, 25, this.memory.reserveRoom).controller.upgradeBlocked);
-};
+        //var CurrentReservationTicks = (new RoomPosition(25, 25, this.memory.reserveRoom).controller.upgradeBlocked);
+    };
 
 // create a new function for StructureSpawn
 StructureSpawn.prototype.createClaimer =

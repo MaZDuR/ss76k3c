@@ -33,7 +33,7 @@ Creep.prototype.getEnergy =
 
         let resource;
 
-        if (resource = this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: d => d.resourceType == RESOURCE_ENERGY && d.amount > this.pos.getRangeTo(d)   })) {
+        if (resource = this.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {filter: d => d.resourceType == RESOURCE_ENERGY && (d.amount - this.pos.getRangeTo(d)) > 50   })) {
 
             if (garbage)
             {
@@ -44,7 +44,7 @@ Creep.prototype.getEnergy =
                         //console.log("Found " + resource.energy + " Resource in room " + this.pos.roomName);
                         // move towards it
                         this.travelTo(resource);
-                        this.say(resource.amount + "🍼")
+                        this.say(resource.amount + "ð¼")
                     }
                 }
 
@@ -56,9 +56,9 @@ Creep.prototype.getEnergy =
             if (useContainer) {
                 // find closest container
                 container = this.pos.findClosestByPath(FIND_STRUCTURES, {
-                        filter: s => (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE) &&
-                    s.store[RESOURCE_ENERGY] > 50
-            });
+                    filter: s => (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE) &&
+                        s.store[RESOURCE_ENERGY] > 50
+                });
                 // if one was found
                 if (container != undefined) {
                     // try to withdraw energy, if the container is not in range

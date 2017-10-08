@@ -1,4 +1,4 @@
-var listOfRoles = ['harvester', 'lorry', 'claimer', 'upgrader', 'repairer', 'builder', 'wallRepairer', 'defender', 'reserver'];
+const listOfRoles = ['harvester', 'lorry', 'claimer', 'upgrader', 'repairer', 'builder', 'wallRepairer', 'defender', 'reserver'];
 
 // create a new function for StructureSpawn
 StructureSpawn.prototype.spawnCreepsIfNecessary =
@@ -97,7 +97,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
             // count the number of long distance harvesters globally
             for (let roomName in this.memory.minLongDistanceHarvesters) {
                 numberOfLongDistanceHarvesters[roomName] = _.sum(Game.creeps, (c) =>
-                    c.memory.role == 'longDistanceHarvester' && c.memory.target == roomName)
+                    c.memory.role == 'longDistanceHarvester' && c.memory.target == roomName);
 
                 if (numberOfLongDistanceHarvesters[roomName] < this.memory.minLongDistanceHarvesters[roomName]) {
                     name = this.createLongDistanceHarvester(maxEnergy, 1, room.name, roomName, 0);
@@ -121,10 +121,10 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
 StructureSpawn.prototype.createCustomCreep =
     function (energy, roleName) {
         // create a balanced body as big as possible with the given energy
-        var numberOfParts = Math.floor(energy / 200);
+        let numberOfParts = Math.floor(energy / 200);
         // make sure the creep is not too big (more than 50 parts)
         numberOfParts = Math.min(numberOfParts, Math.floor(50 / 3));
-        var body = [];
+        const body = [];
         for (let i = 0; i < numberOfParts; i++) {
             body.push(WORK);
         }
@@ -143,7 +143,7 @@ StructureSpawn.prototype.createCustomCreep =
 StructureSpawn.prototype.createLongDistanceHarvester =
     function (energy, numberOfWorkParts, home, target, sourceIndex) {
         // create a body with the specified number of WORK parts and one MOVE part per non-MOVE part
-        var body = [];
+        const body = [];
         for (let i = 0; i < numberOfWorkParts; i++) {
             body.push(WORK);
         }
@@ -151,7 +151,7 @@ StructureSpawn.prototype.createLongDistanceHarvester =
         // 150 = 100 (cost of WORK) + 50 (cost of MOVE)
         energy -= 150 * numberOfWorkParts;
 
-        var numberOfParts = Math.floor(energy / 100);
+        let numberOfParts = Math.floor(energy / 100);
         // make sure the creep is not too big (more than 50 parts)
         numberOfParts = Math.min(numberOfParts, Math.floor((50 - numberOfWorkParts * 2) / 2));
         for (let i = 0; i < numberOfParts; i++) {
@@ -178,13 +178,23 @@ StructureSpawn.prototype.createDefender =
     };
 StructureSpawn.prototype.createReserver =
     function (energy) {
-    var targetroom = new RoomPosition(25, 25, this.memory.reserveRoom);
+    //(CONTROLLER_RESERVE_MAX - CurrentReservationTicks) / (CREEP_CLAIM_LIFE_TIME-StepsToController)
+        const targetroom = new RoomPosition(25, 25, this.memory.reserveRoom);
 
-    var CurrentReservationTicks = -1;
+        let CurrentReservationTicks = -1;
 
-    targetroom.controller.reservation ? CurrentReservationTicks = targetroom.controller.reservation.ticksToEnd - Game.time : 0
+        targetroom.controller.reservation ? CurrentReservationTicks = targetroom.controller.reservation.ticksToEnd - Game.time : 0
 
-    var StepsToController = this.pos.getRangeTo(targetroom.controller);
+        const StepsToController = this.pos.getRangeTo(targetroom.controller);
+
+        const claimparts = (CONTROLLER_RESERVE_MAX - CurrentReservationTicks) / (CREEP_CLAIM_LIFE_TIME - StepsToController);
+
+        // CLAIM buildcost = 600
+        energy -= 600 * claimparts;
+
+        var numberOfParts = Math.floor(energy / 100);
+
+        console.log("Distance: " + StepsToController + " claimparts: " + claimparts + " Energy: " + energy);
 
     //var CurrentReservationTicks = (new RoomPosition(25, 25, this.memory.reserveRoom).controller.upgradeBlocked);
 };
@@ -206,10 +216,10 @@ StructureSpawn.prototype.createMiner =
 StructureSpawn.prototype.createLorry =
     function (energy) {
         // create a body with twice as many CARRY as MOVE parts
-        var numberOfParts = Math.floor(energy / 150);
+        let numberOfParts = Math.floor(energy / 150);
         // make sure the creep is not too big (more than 50 parts)
         numberOfParts = Math.min(numberOfParts, Math.floor(50 / 3));
-        var body = [];
+        const body = [];
         for (let i = 0; i < numberOfParts * 2; i++) {
             body.push(CARRY);
         }

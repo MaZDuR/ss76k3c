@@ -71,6 +71,9 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
                         delete this.memory.claimRoom;
                     }
                 }
+                else if(role == 'reserver' && this.memory.reserveRoom != undefined) {
+                    name = this.createReserver(maxEnergy, this.memory.reserveRoom);
+                }
                 // if no claim order was found, check other roles
                 else if (numberOfCreeps[role] < this.memory.minCreeps[role]) {
                     if (role == 'lorry') {
@@ -78,9 +81,6 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
                     }
                     else if(role == 'defender') {
                         name = this.createDefender(this.room.name);
-                    }
-                    else if(role == 'reserver' && this.memory.claimRoom != undefined) {
-                        name = this.createReserver(maxEnergy, this.memory.reserveRoom);
                     }
                     else {
                         name = this.createCustomCreep(maxEnergy, role);
@@ -195,6 +195,8 @@ StructureSpawn.prototype.createReserver =
         const numberOfParts = Math.floor(energy / 100);
 
         console.log("Distance: " + StepsToController + " claimparts: " + claimparts + " Energy: " + energy);
+
+        return -1;
 
     //var CurrentReservationTicks = (new RoomPosition(25, 25, this.memory.reserveRoom).controller.upgradeBlocked);
 };

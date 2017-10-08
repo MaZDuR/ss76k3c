@@ -80,7 +80,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
                         name = this.createDefender(this.room.name);
                     }
                     else if(role == 'reserver' && this.memory.claimRoom != undefined) {
-                        name = this.createReserver(maxEnergy);
+                        name = this.createReserver(maxEnergy, this.memory.reserveRoom);
                     }
                     else {
                         name = this.createCustomCreep(maxEnergy, role);
@@ -177,13 +177,13 @@ StructureSpawn.prototype.createDefender =
         return this.createCreep([TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, ATTACK, RANGED_ATTACK], undefined, { role: 'defender',  home: roomname});
     };
 StructureSpawn.prototype.createReserver =
-    function (energy) {
+    function (energy, target) {
     //(CONTROLLER_RESERVE_MAX - CurrentReservationTicks) / (CREEP_CLAIM_LIFE_TIME-StepsToController)
         const targetroom = new RoomPosition(25, 25, this.memory.reserveRoom);
 
         let CurrentReservationTicks = -1;
 
-        targetroom.controller.reservation ? CurrentReservationTicks = targetroom.controller.reservation.ticksToEnd - Game.time : 0
+        targetroom.controller.reservation ? CurrentReservationTicks = targetroom.controller.reservation.ticksToEnd - Game.time : 0;
 
         const StepsToController = this.pos.getRangeTo(targetroom.controller);
 
@@ -192,7 +192,7 @@ StructureSpawn.prototype.createReserver =
         // CLAIM buildcost = 600
         energy -= 600 * claimparts;
 
-        var numberOfParts = Math.floor(energy / 100);
+        const numberOfParts = Math.floor(energy / 100);
 
         console.log("Distance: " + StepsToController + " claimparts: " + claimparts + " Energy: " + energy);
 

@@ -79,7 +79,7 @@ StructureSpawn.prototype.spawnCreepsIfNecessary =
                     else if(role == 'defender') {
                         name = this.createDefender(this.room.name);
                     }
-                    else if(role == 'reserver') {
+                    else if(role == 'reserver' && this.memory.claimRoom != undefined) {
                         name = this.createReserver(maxEnergy);
                     }
                     else {
